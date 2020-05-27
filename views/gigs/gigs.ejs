@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/gigs.css" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <section id="gigs" class="container">
+      <h1>All Gigs</h1>
+      <div>
+        <a class="btn" href="?<%=sortByBudgetURL%>">Sort by budget</a>
+      </div>
+      <% for(var i=0; i < gigs.length; i++) {%>
+      <article>
+        <div class="gig">
+          <h3><%=gigs[i].title%></h3>
+          <p><%= gigs[i].description %></p>
+          <ul>
+            <li>Budget: <%= gigs[i].budget %></li>
+            <li>
+              <div>
+                <input type="hidden" value="<%= gigs[i].id %>" name="gigID" />
+
+                <button class="btn" type="button" onclick="sendDaPayment(this)">
+                  Apply Now For <%=gigs[i].budget%>
+                </button>
+                <form action="/payment/<%=gigs[i].id%>">
+                  <input type="submit" value="Apply" />
+                </form>
+              </div>
+            </li>
+          </ul>
+          <div class="tech">
+            <small
+              >Technologies Needed:
+              <span><%= gigs[i].technologies %></span></small
+            >
+          </div>
+          <div>
+            <input type="hidden" value="<%= gigs[i].id %>" name="gigID" />
+            <button class="btn" type="button" onclick="deleteProduct(this)">
+              Delete this shit
+            </button>
+          </div>
+        </div>
+      </article>
+      <% } %> <% if (gigs.length <= 0) { %>
+      <p>no job found</p>
+      <%}%>
+      <div>
+        <a href="/gigs/add" class="btn">let's add some job here will ya?</a>
+      </div>
+      <div>
+        <% if(currentPage != 1 && prevPage !=1) { %>
+        <a href="?page=1" class="btn">1</a>
+        <%}%> <% if(hasPrevPage) { %>
+        <a href="?<%=prevPageURL%>" class="btn"><%=prevPage%></a>
+        <%}%>
+        <a href="?page=<%=currentPage%>" class="bactive"><%=currentPage%></a>
+        <% if(hasNextPage) { %>
+        <a href="?<%=nextPageURL%>" class="btn"><%=nextPage%></a>
+        <%}%> <% if(lastPage !== currentPage && nextPage !== lastPage) {%>
+        <a href="?page=<%=lastPage%>" class="btn"><%=lastPage%></a>
+        <%}%>
+      </div>
+    </section>
+    <script src="/js/gigs/delete.js"></script>
+    <script src="/js/gigs/price.js"></script>
+  </body>
+</html>
